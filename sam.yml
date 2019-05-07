@@ -1,0 +1,20 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: EchoSpotSampler
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  MyEchoSkillFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: MyEchoSkill
+      CodeUri: src/handlers/MyEchoSkill
+      Handler: index.handler
+      Runtime: nodejs8.10
+      Timeout: 10
+      MemorySize: 128
+      Policies:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Events:
+        Alexa:
+          Type: AlexaSkill
