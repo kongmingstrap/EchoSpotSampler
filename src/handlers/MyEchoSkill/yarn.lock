@@ -2,17 +2,43 @@
 # yarn lockfile v1
 
 
-alexa-sdk@^1.0.25:
-  version "1.0.25"
-  resolved "https://registry.yarnpkg.com/alexa-sdk/-/alexa-sdk-1.0.25.tgz#bac389792aaba20bb7bd799eaf049ebff5bd8273"
+ask-sdk-core@^2.5.2:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/ask-sdk-core/-/ask-sdk-core-2.5.2.tgz#554b349742c52c8cd6e4bbb0faf73f50b0bc67d6"
+  integrity sha512-nMIAs+jsAJEpsvOAP6C8tSuZC+kr17NbGRbk78P1PWovSdlhkhH3EJVeFkkVfxWEIX6mOOf94mC/q8FcCyzyfA==
   dependencies:
-    aws-sdk "^2.4.7"
-    i18next "^3.4.1"
-    i18next-sprintf-postprocessor "^0.2.2"
+    ask-sdk-runtime "^2.4.0"
 
-aws-sdk@^2.4.7:
-  version "2.299.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.299.0.tgz#9c12f924f1e28d22899816e112dcb722c4bccf30"
+ask-sdk-dynamodb-persistence-adapter@^2.5.2:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/ask-sdk-dynamodb-persistence-adapter/-/ask-sdk-dynamodb-persistence-adapter-2.5.2.tgz#0e6574329486f1e11dfb71f8a95b8eb051b2c983"
+  integrity sha512-1vjWFLPHrHfSzuJviizrRiPdeT8d66gmCx95apJqLRaDF5p/mp6D7p28L06ww84RuaagUsoZwlWOfoNW8/XY7w==
+  dependencies:
+    aws-sdk "^2.163.0"
+
+ask-sdk-model@^1.9.0:
+  version "1.15.1"
+  resolved "https://registry.yarnpkg.com/ask-sdk-model/-/ask-sdk-model-1.15.1.tgz#387cab67c9f54befae6a3fa16afeb7abf0cd07fe"
+  integrity sha512-WgTrGc2MB1f/wdOkt6M2mVVRQ0D8r42fjUyva63eVqT4+vV100zgvCM7gKhrCLWu7Fj320MnXyCYk/Tqrmrg0w==
+
+ask-sdk-runtime@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/ask-sdk-runtime/-/ask-sdk-runtime-2.4.0.tgz#ebdb213fee934f81c751dc783266de4a1bc155db"
+  integrity sha512-NiTXGeljx3wV9GIbwOvYc3EKPLTR1ZVoJBGNNyoAwg89v1L/hZgg5p3rJM0YJfIqw6HJUHJbtdJsRIHtkscxRA==
+
+ask-sdk@^2.5.2:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/ask-sdk/-/ask-sdk-2.5.2.tgz#bbfb5da99a323974563a0a6ff16f5f62d492d7fe"
+  integrity sha512-s5QxCwpoQJMBTFrFDCbP2WajrjaQNJAw4SUchsmACL0MPji1PAxrbcLWC7AwwPG7S6rew8nGaLh/1/uPFZuCBw==
+  dependencies:
+    ask-sdk-core "^2.5.2"
+    ask-sdk-dynamodb-persistence-adapter "^2.5.2"
+    ask-sdk-model "^1.9.0"
+
+aws-sdk@^2.163.0:
+  version "2.450.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.450.0.tgz#5467484d7a08647d744229692bad96a03289e243"
+  integrity sha512-u15X4okLGJaiWTtDGgRfw5iHt1OHRQVji5/8A/1P59jWLmfc2Dm0csJ5y3HnbG1kYoauVLohm5sB5SpNyTkaxA==
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -21,7 +47,7 @@ aws-sdk@^2.4.7:
     querystring "0.2.0"
     sax "1.2.1"
     url "0.10.3"
-    uuid "3.1.0"
+    uuid "3.3.2"
     xml2js "0.4.19"
 
 base64-js@^1.0.2:
@@ -39,14 +65,6 @@ buffer@4.9.1:
 events@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/events/-/events-1.1.1.tgz#9ebdb7635ad099c70dcc4c2a1f5004288e8bd924"
-
-i18next-sprintf-postprocessor@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/i18next-sprintf-postprocessor/-/i18next-sprintf-postprocessor-0.2.2.tgz#2e409f1043579382698b6a2da70cdaa551d67ea4"
-
-i18next@^3.4.1:
-  version "3.5.2"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-3.5.2.tgz#930390d5c318ceaa4858b52dd0e40e6b203f9f41"
 
 ieee754@1.1.8:
   version "1.1.8"
@@ -87,9 +105,10 @@ url@0.10.3:
     punycode "1.3.2"
     querystring "0.2.0"
 
-uuid@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.1.0.tgz#3dd3d3e790abc24d7b0d3a034ffababe28ebbc04"
+uuid@3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
+  integrity sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==
 
 xml2js@0.4.19:
   version "0.4.19"
