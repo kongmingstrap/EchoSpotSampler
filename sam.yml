@@ -11,10 +11,57 @@ Resources:
       CodeUri: src/handlers/MyEchoSkill
       Handler: index.handler
       Runtime: nodejs8.10
-      Timeout: 10
-      MemorySize: 128
+      Timeout: 60
+      MemorySize: 3000
       Policies:
         - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          PHOTO_INFO_TABLE: !Ref PhotoInfoTable
       Events:
         Alexa:
           Type: AlexaSkill
+
+  WatchCameraBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub watch-camera-${AWS::AccountId}-${AWS::Region}
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders:
+              - "*"
+            AllowedMethods:
+              - "GET"
+            AllowedOrigins:
+              - "*"
+            MaxAge: "3000"
+
+  PhotoInfoTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: photo_info
+      BillingMode: PAY_PER_REQUEST
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: false
+      AttributeDefinitions:
+        - AttributeName: deviceId
+          AttributeType: S
+        - AttributeName: timestamp
+          AttributeType: N
+      KeySchema:
+        - AttributeName: deviceId
+          KeyType: HASH
+        - AttributeName: timestamp
+          KeyType: RANGE
+
+Outputs:
+  WatchCameraBucketArn:
+    Value: !GetAtt WatchCameraBucket.Arn
+    Export:
+      Name: !Sub ${AWS::StackName}-WatchCameraBucketArn
+
+  PhotoInfoTableName:
+    Value: !Ref PhotoInfoTable
+    Export:
+      Name: !Sub ${AWS::StackName}-PhotoInfoTableName

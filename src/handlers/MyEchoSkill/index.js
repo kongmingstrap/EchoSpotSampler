@@ -1,13 +1,38 @@
 'use strict';
 const Alexa = require('ask-sdk');
+const AWS = require('aws-sdk');
 
 let skill;
+var results;
 
 exports.handler = async function (event, context) {
     if (!skill) {
+        const docClient = new AWS.DynamoDB.DocumentClient({region: 'ap-northeast-1'});
+        const tableName = process.env['PHOTO_INFO_TABLE'];
+        console.log('tableName: ', tableName);
+        const params = {
+            TableName: tableName,
+            KeyConditionExpression: '#di = :device',
+            ExpressionAttributeNames: {
+                '#di': 'deviceId'
+            },
+            ExpressionAttributeValues: {
+                ':device': 'watchcamera0001'
+            }
+        };
+
+        try {
+            let response = await docClient.query(params).promise();
+            console.log('response: ', response);
+            results = response.Items;
+            console.log('results: ', results);
+        } catch (err) {
+            console.log('err: ', err);
+        }
+
         skill = Alexa.SkillBuilders.custom()
-                    .addRequestHandlers(LaunchRequestHandler)
-                    .create();
+            .addRequestHandlers(LaunchRequestHandler)
+            .create();
     }
     return skill.invoke(event);
 }
@@ -31,13 +56,12 @@ const LaunchRequestHandler = {
             && request.intent.name === SuggestPizza);
     },
     handle(handlerInput) {
-        const speechOutput = "We suggest the Veggie Delite pizza which has Golden Corn, Black Olives, Capsicum and a lot of cheese. Yum!";
+        const speechOutput = 'Look!';
         if (supportsDisplay(handlerInput)) {
-
+            const photoUrl = results[0].photoUrl;
             const myImage = new Alexa.ImageHelper()
-                .addImageInstance('https://i.imgur.com/rpcYKDD.jpg')
+                .addImageInstance(photoUrl)
                 .getImage();
-
             const primaryText = new Alexa.RichTextContentHelper()
                 .withPrimaryText(speechOutput)
                 .getTextContent();
@@ -47,13 +71,14 @@ const LaunchRequestHandler = {
                 token: 'string',
                 backButton: 'HIDDEN',
                 backgroundImage: myImage,
-                title: "Pizza Suggest",
+                title: "MY ROOM",
                 textContent: primaryText,
             });
+
+            return handlerInput.responseBuilder
+                .speak(speechOutput)
+                .withSimpleCard(speechOutput)
+                .getResponse();
         }
-        return handlerInput.responseBuilder
-            .speak(speechOutput)
-            .withSimpleCard(speechOutput)
-            .getResponse();
     },
 };
